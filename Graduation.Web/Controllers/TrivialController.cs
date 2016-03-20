@@ -29,21 +29,6 @@ namespace Graduation.Web.Controllers
                 base.Dispose(disposing);
             }
 
-            private async Task<TriviaQuestion> NextQuestionAsync(string userId)
-            {
-                var lastQuestionId = await this.db.TriviaAnswers
-                    .Where(a => a.UserId == userId)
-                    .GroupBy(a => a.QuestionId)
-                    .Select(g => new { QuestionId = g.Key, Count = g.Count() })
-                    .OrderByDescending(q => new { q.Count, QuestionId = q.QuestionId })
-                    .Select(q => q.QuestionId)
-                    .FirstOrDefaultAsync();
-
-                var questionsCount = await this.db.TriviaQuestions.CountAsync();
-
-                var nextQuestionId = (lastQuestionId % questionsCount) + 1;
-                return await this.db.TriviaQuestions.FindAsync(CancellationToken.None, nextQuestionId);
-            }
 
             // GET api/Trivia
             [ResponseType(typeof(TriviaQuestion))]
@@ -60,18 +45,21 @@ namespace Graduation.Web.Controllers
 
                 return this.Ok(nextQuestion);
             }
-
-            private async Task<bool> StoreAsync(TriviaAnswer answer)
+            
+            private async Task<TriviaQuestion> NextQuestionAsync(string userId)
             {
-                this.db.TriviaAnswers.Add(answer);
+                var lastQuestionId = await this.db.TriviaAnswers
+                    .Where(a => a.UserId == userId)
+                    .GroupBy(a => a.QuestionId)
+                    .Select(g => new { QuestionId = g.Key, Count = g.Count() })
+                    .OrderByDescending(q => new { q.Count, QuestionId = q.QuestionId })
+                    .Select(q => q.QuestionId)
+                    .FirstOrDefaultAsync();
 
-                await this.db.SaveChangesAsync();
-                var selectedOption = await this.db.TriviaOptions.FirstOrDefaultAsync(o => o.Id == answer.OptionId
-                                                                                          &&
-                                                                                          o.QuestionId ==
-                                                                                          answer.QuestionId);
+                var questionsCount = await this.db.TriviaQuestions.CountAsync();
 
-                return selectedOption.IsCorrect;
+                var nextQuestionId = (lastQuestionId % questionsCount) + 1;
+                return await this.db.TriviaQuestions.FindAsync(CancellationToken.None, nextQuestionId);
             }
 
             // POST api/Trivia
@@ -86,7 +74,7 @@ namespace Graduation.Web.Controllers
                 answer.UserId = User.Identity.Name;
 
                 var isCorrect = await this.StoreAsync(answer);
-                
+
                 await Task.Run(() =>
                 {
                     if (!_resultsDictionary.ContainsKey(User.Identity.Name.ToString()))
@@ -96,7 +84,22 @@ namespace Graduation.Web.Controllers
                     _resultsDictionary[User.Identity.Name.ToString()].Add(new TriviaResult { QuestionId = answer.QuestionId, IsCorrect = isCorrect });
                 });
                 return this.Ok<bool>(isCorrect);
-            }           
+            }
+
+            private async Task<bool> StoreAsync(TriviaAnswer answer)
+            {
+                this.db.TriviaAnswers.Add(answer);
+
+                await this.db.SaveChangesAsync();
+                var selectedOption = await this.db.TriviaOptions.FirstOrDefaultAsync(
+                    o => o.Id == answer.OptionId
+                    &&
+                    o.QuestionId == answer.QuestionId);
+
+                return selectedOption.IsCorrect;
+            }
+
+         
         }
     }
 }

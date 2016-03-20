@@ -18,7 +18,7 @@
 
     /* flip speed */
     .flip-container > div {
-        position: absolute;
+        position: relative;
         -moz-transition: .2s;
         -o-transition: .2s;
         -webkit-transition: .2s;

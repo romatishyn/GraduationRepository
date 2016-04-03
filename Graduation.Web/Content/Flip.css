@@ -18,31 +18,36 @@
 
     /* flip speed */
     .flip-container > div {
-        position: relative;
-        -moz-transition: .2s;
-        -o-transition: .2s;
-        -webkit-transition: .2s;
-        transition: .2s;
+        position: absolute;
+        -webkit-transition: 0.3s;
+        -moz-transition: 0.3s;
+        -o-transition: 0.3s;
+        -ms-transition: 0.3s;
+        transition: 0.3s;
     }
+.flip-container > div:after {
+    position: relative;
+}
 
-/* hide back of pane during flip */
 .front, .back {
-    -moz-backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 
 /* flip transformation */
 .flip-container div.front {
-    -moz-transform: perspective(2000px) rotateY(0deg);
     -webkit-transform: perspective(2000px) rotateY(0deg);
+    -moz-transform: perspective(2000px) rotateY(0deg);
+    -ms-transform: perspective(2000px) rotateY(0deg);
     -o-transform: perspective(2000px) rotateY(0deg);
     transform: perspective(2000px) rotateY(0deg);
 }
 
     .flip-container div.front.flip {
-        -moz-transform: perspective(2000px) rotateY(179.9deg);
         -webkit-transform: perspective(2000px) rotateY(179.9deg);
+        -moz-transform: perspective(2000px) rotateY(179.9deg);
+        -ms-transform: perspective(2000px) rotateY(0);
         -o-transform: perspective(2000px) rotateY(179.9deg);
         transform: perspective(2000px) rotateY(179.9deg);
     }
@@ -50,32 +55,20 @@
 .flip-container div.back {
     -moz-transform: perspective(2000px) rotateY(-180deg);
     -webkit-transform: perspective(2000px) rotateY(-180deg);
+    -ms-transform: perspective(2000px) rotateY(0);
     -o-transform: perspective(2000px) rotateY(-180deg);
     transform: perspective(2000px) rotateY(-180deg);
 }
 
     .flip-container div.back.flip {
-        -moz-transform: perspective(2000px) rotateY(0deg);
         -webkit-transform: perspective(2000px) rotateY(0deg);
+        -moz-transform: perspective(2000px) rotateY(0deg);
         -ms-transform: perspective(2000px) rotateY(0);
         -o-transform: perspective(2000px) rotateY(0);
         transform: perspective(2000px) rotateY(0);
     }
 
 
-
-/* additional styles for mobile devices */
-
-@media (max-width: 767px) {
-    /* size*/
-    .flip-container, .front, .back {
-        height: 400px;
-    }
-
-    .front, .back {
-        width: 97%;
-    }
-}
 
 /* fallback behavior for browsers not supporting css transformations and/or css transitions */
 .no-csstransitions.no-csstransforms3d .flip-container div.back,

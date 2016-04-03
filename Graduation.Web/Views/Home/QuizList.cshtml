@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Play";
+}
+
+<div id="bodyContainer">
+    <section id="content">
+        <div class="container">
+            <div class="row">
+                <div class="content text-center col-md-12">
+                    <div class="quiz-list" data-bind="visible: tests, foreach: tests">
+                        <a data-bind="text: Title"></a>
+                    </div>
+
+                    <button class="btn btn-info" data-bind="click: addNewTest">Add new Test</button>
+
+                    <div class="test">
+                        <div data-bind="visible: newTest, with: newTest">
+
+                            <input type="text" data-bind="text: title, value: title" placeholder="Type test title here" />
+                            <input type="number" data-bind="value: questionsCount, event: {change: setQuestionsCount}, valueUpdate: 'afterkeydown'" min="0" step="1" />
+
+                            <div class="question" data-bind="template: { name: 'question-template', foreach: questions}"></div>
+
+                            <button class="btn btn-info" data-bind="click: $parent.save">Enter</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script type="text/html" id="question-template">
+            <textarea data-bind="text: title, value: title" placeholder="question title" rows="2"> </textarea>
+            <input type="number" data-bind="value: optionsCount, event: {change: setOptionsCount}, valueUpdate: 'afterkeydown'" min="0" step="1" max="10" />
+
+            <div class="answer" data-bind="template: { name: 'answer-template', foreach: options}"></div>
+
+        </script>
+
+        <script type="text/html" id="answer-template">
+            <input data-bind="text: title, value: title" placeholder="answer title" />
+            <input type="checkbox" data-bind="checked: isTrue" />
+        </script>
+
+    </section>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/CustomScripts/Views/QuizList/QuizList.js")
+}

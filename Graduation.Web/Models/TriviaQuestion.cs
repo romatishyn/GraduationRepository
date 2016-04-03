@@ -1,4 +1,6 @@
-﻿namespace Graduation.Web.Models
+﻿using Newtonsoft.Json;
+
+namespace Graduation.Web.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -11,5 +13,8 @@
         public string Title { get; set; }
 
         public virtual List<TriviaOption> Options { get; set; }
+
+        [JsonIgnore]
+        public virtual TriviaTest Test { get; set; }
     }
 }

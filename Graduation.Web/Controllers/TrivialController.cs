@@ -9,6 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Description;
 using Graduation.Web.Models;
+using Graduation.Web.Models.ViewModels.QuizViewModels;
+using Graduation.Web.Services;
+
 namespace Graduation.Web.Controllers
 {
     [Authorize]
@@ -29,14 +32,13 @@ namespace Graduation.Web.Controllers
                 base.Dispose(disposing);
             }
 
-
             // GET api/Trivia
             [ResponseType(typeof(TriviaQuestion))]
             public async Task<IHttpActionResult> Get()
             {
                 var userId = User.Identity.Name;
 
-                TriviaQuestion nextQuestion = await this.NextQuestionAsync(userId);
+                var nextQuestion = await this.NextQuestionAsync(userId);
 
                 if (nextQuestion == null)
                 {
@@ -45,8 +47,8 @@ namespace Graduation.Web.Controllers
 
                 return this.Ok(nextQuestion);
             }
-            
-            private async Task<TriviaQuestion> NextQuestionAsync(string userId)
+
+            private async Task<QuestionViewModel> NextQuestionAsync(string userId)
             {
                 var lastQuestionId = await this.db.TriviaAnswers
                     .Where(a => a.UserId == userId)
@@ -59,7 +61,12 @@ namespace Graduation.Web.Controllers
                 var questionsCount = await this.db.TriviaQuestions.CountAsync();
 
                 var nextQuestionId = (lastQuestionId % questionsCount) + 1;
-                return await this.db.TriviaQuestions.FindAsync(CancellationToken.None, nextQuestionId);
+
+                var isLast = (nextQuestionId == questionsCount);
+
+                return await TriviaService.GetQuestionAsync(
+                        this.db.TriviaQuestions.FindAsync(CancellationToken.None, nextQuestionId).Result, isLast);
+                //return await this.db.TriviaQuestions.FindAsync(CancellationToken.None, nextQuestionId);
             }
 
             // POST api/Trivia
@@ -85,7 +92,6 @@ namespace Graduation.Web.Controllers
                 });
                 return this.Ok<bool>(isCorrect);
             }
-
             private async Task<bool> StoreAsync(TriviaAnswer answer)
             {
                 this.db.TriviaAnswers.Add(answer);
@@ -99,7 +105,6 @@ namespace Graduation.Web.Controllers
                 return selectedOption.IsCorrect;
             }
 
-         
         }
     }
 }

@@ -9,6 +9,9 @@
     padding-right: 15px;
 }
 
+footer p {
+    text-align: center;
+}
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -25,44 +28,81 @@ textarea {
 
 
 .validation-summary-valid {
-     display: none;
+    display: none;
 }
 
 /* Geek Quiz styles */
 .flip-container .back,
 .flip-container .front {
-     border: 5px solid #00bcf2;
-     padding-bottom: 30px;
-     padding-top: 30px;
+    border: 5px solid #00bcf2;
+    padding-bottom: 30px;
+    padding-top: 30px;
 }
 
 #content {
-    position:relative;
-    background:#fff;
-    padding:50px 0 0 0;
+    position: relative;
+    background: #fff;
+    padding: 50px 0 0 0;
 }
 
 .option {
-     width:140px;
-     margin: 5px;
+    min-width: 140px;
+    margin: 5px;
 }
 
 div.correct p {
-     color: green;
+    color: green;
 }
 
 div.incorrect p {
-     color: red;
+    color: red;
 }
 
 .btn {
-     border-radius: 0;
+    border-radius: 0;
 }
 
-.flip-container div.front, .flip-container div.back.flip {
+div.unanswered {
+    display: none;
+}
+
+a {
+    cursor: pointer;
+}
+
+div.quiz-list {
+    margin: 20px auto;
+}
+
+div.test {
+    margin: 20px auto;
+}
+
+div.question {
+    margin: 20px auto;
+}
+
+div.answer {
+    margin: 20px auto;
+}
+
+div.test > div > input[type="text"],
+div.test > div > div.question > textarea {
+    display: block;
+}
+
+div.test > div > input,
+div.test > div > div.question > textarea,
+div.test > div > div.question > input {
+    margin: 10px auto;
+}
+div.test > div > div.question > .answer > input {
+     margin: 5px 10px 0 0;
+}
+/*.flip-container div.front, .flip-container div.back.flip {
     display: block;
 }
 
 .flip-container div.front.flip, .flip-container div.back {
     display: none;
-}
+}*/

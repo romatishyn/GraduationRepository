@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Play";
+}
+
+<div id="bodyContainer" ng-app="QuizApp">
+    <section id="content">
+        <div class="container">
+            <div class="row">
+                <v class="flip-container text-center col-md-12" ng-controller="QuizCtrl" ng-init="loadTests()">
+                    <div class="quiz-list" ng-show="tests" ng-repeat="test in tests">
+                        <a>{{test.Title}}</a>
+                    </div>
+
+                    <button class="btn btn-info" ng-click="addNewTest()">Add new Test</button>
+
+                    <div class="test">
+                        <div ng-show="newTest">
+                            
+                            <input type="text" ng-model="text: title" placeholder="Type test title here"/>
+                            <input type="number" ng-model="questionsCount, event: {change: setQuestionsCount}, valueUpdate: 'afterkeydown'" min="0" step="1"/>
+
+                            <div class="question" data-bind="template: { name: 'question-template', foreach: questions}"></div>
+
+                            <button class="btn btn-info" n>Enter</button>
+                        </div>
+                    </div>
+
+
+                    <div class="back" ng-class="{flip: answered ,correct: correctAnswer, incorrect:!correctAnswer}">
+                        <p class="lead">{{answer()}}</p>
+                        <p>
+                            <button class="btn btn-info btn-lg next option" ng-show="!isLast" ng-click="nextQuestion()" ng-disabled="working">Next Question</button>
+                            @Html.ActionLink("Home", "QuizList", "Home", new { ng_show = "isLast" })
+                        </p>
+                    </div>
+
+            </div>
+        </div>
+</div>
+    </section>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/Scripts/knockout.js")
+    @Scripts.Render("~/Scripts/angular.js")
+}

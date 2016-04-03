@@ -8,7 +8,7 @@
             : base("name=DefaultConnection")
         {
         }
-
+        public DbSet<TriviaTest> TriviaTests { get; set; }
         public DbSet<TriviaQuestion> TriviaQuestions { get; set; }
 
         public DbSet<TriviaOption> TriviaOptions { get; set; }

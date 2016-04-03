@@ -1,7 +1,12 @@
-﻿namespace Graduation.Web.Models
-{
-    using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
+namespace Graduation.Web.Entities
+{
     public class TriviaContext : DbContext
     {
         public TriviaContext()
@@ -15,4 +20,6 @@
 
         public DbSet<TriviaAnswer> TriviaAnswers { get; set; }
     }
+
+
 }

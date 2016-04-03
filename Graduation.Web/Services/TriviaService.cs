@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Graduation.Web.Entities;
 using Graduation.Web.Models;
 using Graduation.Web.Models.ViewModels.QuizViewModels;
 

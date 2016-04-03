@@ -1,4 +1,4 @@
-﻿namespace Graduation.Web.Models
+﻿namespace Graduation.Web.Entities
 {
     using System;
     using System.Collections.Generic;

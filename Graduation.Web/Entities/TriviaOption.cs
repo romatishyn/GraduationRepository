@@ -1,4 +1,6 @@
-﻿namespace Graduation.Web.Models
+﻿using Graduation.Web.Models;
+
+namespace Graduation.Web.Entities
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;

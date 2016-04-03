@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Graduation.Web.Models
+namespace Graduation.Web.Entities
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Graduation.Web.Models;
 
-namespace Graduation.Web.Models
+namespace Graduation.Web.Entities
 {
     public class TriviaTest
     {

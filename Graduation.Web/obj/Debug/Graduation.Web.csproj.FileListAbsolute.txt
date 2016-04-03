@@ -236,4 +236,11 @@ D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\roslyn\System.IO.F
 D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\roslyn\System.IO.FileSystem.Primitives.dll
 D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\roslyn\vbc.exe.config
 D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\roslyn\vbc.rsp
+D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\Ninject.dll
+D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\Ninject.Web.Common.dll
+D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\Ninject.Web.Mvc.dll
+D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\WebActivatorEx.dll
+D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\Ninject.xml
+D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\Ninject.Web.Common.xml
+D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\Ninject.Web.Mvc.xml
 D:\GitHubRepositories\GraduationRepository\Graduation.Web\obj\Debug\Graduation.Web.csprojResolveAssemblyReference.cache

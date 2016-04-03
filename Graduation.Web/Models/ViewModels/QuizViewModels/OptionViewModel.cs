@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Graduation.Web.Entities;
 
 namespace Graduation.Web.Models.ViewModels.QuizViewModels
 {

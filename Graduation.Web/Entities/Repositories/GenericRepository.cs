@@ -12,17 +12,12 @@ namespace Graduation.Web.Entities.Repositories
 
         public GenericRepository(TriviaContext context)
         {
-            _context = context;
+            this._context = context;
         }
 
         public DbSet<T> Get<T>() where T : class
         {
             return _context.Set<T>();
-        }
-
-        public void Commit()
-        {
-            _context.SaveChanges();
         }
 
         public void Add<T>(T entity) where T : class
@@ -38,6 +33,11 @@ namespace Graduation.Web.Entities.Repositories
         public void Update<T>(T entity) where T : class
         {
             _context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public void Commit()
+        {
+            _context.SaveChanges();
         }
 
         private bool _disposed = false;

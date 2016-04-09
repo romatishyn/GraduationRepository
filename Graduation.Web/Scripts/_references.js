@@ -1,4 +1,5 @@
 ﻿/// <autosync enabled="true" />
+/// <reference path="../customscripts/views/quiz/quiz.js" />
 /// <reference path="../customscripts/views/quizlist/quizlist.js" />
 /// <reference path="bootstrap.min.js" />
 /// <reference path="jquery.validate.min.js" />

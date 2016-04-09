@@ -2,25 +2,26 @@
     ViewBag.Title = "Play";
 }
 
-<div id="bodyContainer" ng-app="QuizApp">
+<div id="bodyContainer">
     <section id="content">
         <div class="container">
             <div class="row">
-                <div class="flip-container text-center col-md-12" ng-controller="QuizCtrl" ng-init="nextQuestion()">
-                    <div class="front" ng-class="{flip: answered}">
-                        <p class="lead">{{title}}</p>
+                <div class="flip-container text-center col-md-12">
+                    <div class="front" data-bind="css: {flip : answered()}">
+                        <p class="lead" data-bind="text: title"></p>
                         <div class="row text-center">
-                            <button class="btn btn-info btn-lg option" ng-repeat="option in options" ng-click="sendAnswer(option)" ng-disabled="working">{{option.title}}</button>
+                            <!-- ko foreach: options -->
+                            <button class="btn btn-info btn-lg option" data-bind="click: $parent.sendAnswer.bind($data), text: title ,visible: $parent.working()"></button>
+                            <!-- /ko -->
                         </div>
                     </div>
-                    <div class="back" ng-class="{flip: answered ,correct: correctAnswer, incorrect:!correctAnswer}">
-                        <p class="lead">{{answer()}}</p>
+                    <div class="back" data-bind="css :{flip : answered(), correct: correctAnswer(), incorrect: !correctAnswer()}">
+                        <p class="lead" data-bind="text: answer()"></p>
                         <p>
-                            <button class="btn btn-info btn-lg next option" ng-show="!isLast" ng-click="nextQuestion()" ng-disabled="working">Next Question</button>
-                            @Html.ActionLink("Home", "QuizList", "Home", new { ng_show = "isLast" })
+                            <button class="btn btn-info btn-lg next option" data-bind="visible : !isLast(), click: nextQuestion, disable: working">Next Question</button>
+                            @Html.ActionLink("Home", "QuizList", "Home", new { data_bind = "visible: isLast()" })
                         </p>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -29,5 +30,5 @@
 
 @section scripts {
     @Scripts.Render("~/Scripts/knockout.js")
-    @Scripts.Render("~/Scripts/angular.js")
+    @Scripts.Render("~/CustomScripts/Views/Quiz/Quiz.js")
 }

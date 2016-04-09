@@ -54,7 +54,7 @@ namespace Graduation.Web.Controllers
 
         public ActionResult QuizList()
         {
-            return View();
+            return View(db.TriviaTests.ToList());
         }
 
         public async Task<ActionResult> GetTestsList()

@@ -3,11 +3,12 @@
 
 function QuizListViewModel() {
     var self = this;
-
+    self.url = ko.observable("/Home/Quiz/");
     self.tests = ko.observableArray();
-
     //self.test = ko.observable();
-
+    self.pickTest = function (test) {
+        location.href = self.url() + test.Id;
+    }
     self.newTest = ko.observable(null);
 
 
@@ -86,18 +87,15 @@ function QuizListViewModel() {
     }
 
     self.addNewTest = function () {
-        //self.newTest(new Object());
         self.newTest(new test());
     }
 
 
 
     self.save = function () {
-
         var test = new TestModel(self.newTest());
         console.log(test);
         self.uploadTest(test);
-
     }
 }
 

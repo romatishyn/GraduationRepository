@@ -29,6 +29,12 @@ namespace Graduation.Web
             );
 
 
+            config.Routes.MapHttpRoute(
+             name: "TriviaApi",
+             routeTemplate: "api/{controller}/{id}/{questionId}",
+             defaults: new { id = RouteParameter.Optional }
+            );
+
 
 
         }

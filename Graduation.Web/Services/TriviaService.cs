@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using Graduation.Web.Entities;
-using Graduation.Web.Models;
 using Graduation.Web.Models.ViewModels.QuizViewModels;
 
 namespace Graduation.Web.Services
@@ -28,18 +25,43 @@ namespace Graduation.Web.Services
             });
             return question;
         }
-        public static async Task<List<TestListViewModel>> GetTestsAsync(List<TriviaTest> entity)
+        public static async Task<List<TestViewModel>> GetTestsAsync(List<TriviaTest> entity)
         {
-            var testList = new List<TestListViewModel>();
+            var testList = new List<TestViewModel>();
             await Task.Run(() =>
             {
                 for (var i = 0; i < entity.Count(); i++)
                 {
-                    testList.Add(new TestListViewModel(entity[i]));
-                    testList.Add(new TestListViewModel(entity[i]));
+                    testList.Add(new TestViewModel(entity[i]));
                 }
             });
             return testList;
+        }
+        public static async Task<TriviaTest> ConvertToTriviaAsync(Models.ViewModels.TestCreationModels.TestViewModel test)
+        {
+            var triviaTest = new TriviaTest();
+            triviaTest.Title = test.Title;
+            triviaTest.Questions = new List<TriviaQuestion>();
+            await Task.Run(() =>
+            {
+                foreach (var elem in test.Questions)
+                {
+                    var question = new TriviaQuestion();
+                    question.Title = elem.Title;
+                    question.Test = triviaTest;
+                    question.Options = new List<TriviaOption>();
+                    foreach (var answer in elem.Options)
+                    {
+                        var option = new TriviaOption();
+                        option.Title = answer.Title;
+                        option.IsCorrect = answer.IsCorrect;
+                        option.TriviaQuestion = question;
+                        question.Options.Add(option);
+                    }
+                    triviaTest.Questions.Add(question);
+                }
+            });
+            return triviaTest;
         }
     }
 }

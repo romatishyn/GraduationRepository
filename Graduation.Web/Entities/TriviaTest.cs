@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Graduation.Web.Models;
+using Graduation.Web.Models.ViewModels.TestCreationModels;
 
 namespace Graduation.Web.Entities
 {

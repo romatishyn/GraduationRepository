@@ -9,6 +9,6 @@ namespace Graduation.Web.Models.ViewModels.TestCreationModels
     {
         public string Title { get; set; }
 
-        public virtual List<OptionViewModel> Options { get; set; }
+        public List<OptionViewModel> Options { get; set; }
     }
 }

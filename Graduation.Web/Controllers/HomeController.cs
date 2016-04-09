@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using Graduation.Web.Entities;
-using Graduation.Web.Models;
+using Graduation.Web.Entities.Repositories;
 using Graduation.Web.Models.ViewModels.TestCreationModels;
 using Graduation.Web.Services;
 
@@ -15,16 +12,13 @@ namespace Graduation.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private TriviaContext db = new TriviaContext();
+        //private TriviaContext db = new TriviaContext();
 
-        protected override void Dispose(bool disposing)
+        private IRepository _triviaRepository;
+
+        public HomeController()
         {
-            if (disposing)
-            {
-                this.db.Dispose();
-            }
-
-            base.Dispose(disposing);
+            this._triviaRepository = new GenericRepository(new TriviaContext());
         }
 
         [Authorize]
@@ -49,22 +43,38 @@ namespace Graduation.Web.Controllers
 
         public ActionResult Quiz(int id)
         {
-            return View(db.TriviaTests.FindAsync(CancellationToken.None, id));
+            //if (_triviaRepository.Get<TriviaTest>().FindAsync(CancellationToken.None, id)) ;
+            if (_triviaRepository.Get<TriviaTest>().Any(x => x.Id == id))
+            {
+                ViewBag.TestId = id;
+                return View();
+            }
+            return View("Error");
         }
 
         public ActionResult QuizList()
         {
-            return View(db.TriviaTests.ToList());
+            return View(_triviaRepository.Get<TriviaTest>().ToList());
         }
 
         public async Task<ActionResult> GetTestsList()
         {
-            //var x = TriviaService.GetTestsAsync(this.db.TriviaTests.ToListAsync().Result);
-            return Json(await TriviaService.GetTestsAsync(this.db.TriviaTests.ToListAsync().Result), JsonRequestBehavior.AllowGet);
+            return Json(await TriviaService.GetTestsAsync(this._triviaRepository.Get<TriviaTest>().ToListAsync().Result), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult AddNewTest(TestListViewModel test)
+        public async Task<ActionResult> AddNewTest(TestViewModel test)
         {
+            if (test != null)
+            {
+                await Task.Run(() =>
+                {
+                    var triviaTest = TriviaService.ConvertToTriviaAsync(test).Result;
+                    //_triviaRepository.Get<TriviaTest>().Add(triviaTest);
+                    _triviaRepository.Add(triviaTest);
+                    _triviaRepository.Commit();
+                });
+
+            }
             return null;
         }
     }

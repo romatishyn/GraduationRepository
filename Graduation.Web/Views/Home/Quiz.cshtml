@@ -1,7 +1,12 @@
 ﻿@{
     ViewBag.Title = "Play";
+    //int id = ViewBag.TestId ?? 0;
 }
-
+<script>
+    Model = {};
+    Model.TestId = @(ViewBag.TestId ?? 0);
+</script>
+@*<p>@id</p>*@
 <div id="bodyContainer">
     <section id="content">
         <div class="container">
@@ -18,7 +23,7 @@
                     <div class="back" data-bind="css :{flip : answered(), correct: correctAnswer(), incorrect: !correctAnswer()}">
                         <p class="lead" data-bind="text: answer()"></p>
                         <p>
-                            <button class="btn btn-info btn-lg next option" data-bind="visible : !isLast(), click: nextQuestion, disable: working">Next Question</button>
+                            <button class="btn btn-info btn-lg next option" data-bind="visible : !isLast(), click: nextQuestion@*, disable: working*@">Next Question</button>
                             @Html.ActionLink("Home", "QuizList", "Home", new { data_bind = "visible: isLast()" })
                         </p>
                     </div>

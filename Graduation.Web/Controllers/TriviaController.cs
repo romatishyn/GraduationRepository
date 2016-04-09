@@ -18,9 +18,10 @@ namespace Graduation.Web.Controllers
     [Authorize]
     public class TriviaController : ApiController
     {
-        private static Dictionary<string, List<TriviaResult>> _resultsDictionary = new Dictionary<string, List<TriviaResult>>();
-
-        private IRepository _triviaRepository;
+        private Dictionary<string, List<TriviaResult>> _resultsDictionary = new Dictionary<string, List<TriviaResult>>();
+        private TriviaTest _currentTest;
+        public bool Tested = false;
+        private readonly IRepository _triviaRepository;
 
         public TriviaController()
         {
@@ -29,11 +30,26 @@ namespace Graduation.Web.Controllers
 
         // GET api/Trivia
         [ResponseType(typeof(TriviaQuestion))]
-        public async Task<IHttpActionResult> Get()
+        public async Task<IHttpActionResult> Get(int id, int questionId)
         {
-            var userId = User.Identity.Name;
+            if (!Tested)
+            {
+                if (_triviaRepository.Get<TriviaTest>().Any(x => x.Id == id))
+                {
+                    _currentTest = _triviaRepository.Get<TriviaTest>().First(x => x.Id == id);
+                    Tested = true;
+                }
+            }
+            //var userId = User.Identity.Name;
+            var isLast = (questionId == _currentTest.Questions.Count() - 1);
+            var nextQuestion = new QuestionViewModel();
+            await Task.Run(() =>
+            {
+                nextQuestion = TriviaService.GetQuestionAsync(
+                    _currentTest.Questions[questionId], isLast).Result;
+            });
 
-            var nextQuestion = await this.NextQuestionAsync(userId);
+            /*await this.NextQuestionAsync(userId);*/
 
             if (nextQuestion == null)
             {
@@ -43,28 +59,27 @@ namespace Graduation.Web.Controllers
             return this.Ok(nextQuestion);
         }
 
-        private async Task<QuestionViewModel> NextQuestionAsync(string userId)
-        {
+        //private async Task<QuestionViewModel> NextQuestionAsync(string userId)
+        //{
+        //    var lastQuestionId = await this._triviaRepository.Get<TriviaAnswer>()
+        //        .Where(a => a.UserId == userId)
+        //        .GroupBy(a => a.QuestionId)
+        //        .Select(g => new { QuestionId = g.Key, Count = g.Count() })
+        //        .OrderByDescending(q => new { q.Count, QuestionId = q.QuestionId })
+        //        .Select(q => q.QuestionId)
+        //        .FirstOrDefaultAsync();
 
-            var lastQuestionId = await this._triviaRepository.Get<TriviaAnswer>()
-                .Where(a => a.UserId == userId)
-                .GroupBy(a => a.QuestionId)
-                .Select(g => new { QuestionId = g.Key, Count = g.Count() })
-                .OrderByDescending(q => new { q.Count, QuestionId = q.QuestionId })
-                .Select(q => q.QuestionId)
-                .FirstOrDefaultAsync();
+        //    var questionsCount = await this._triviaRepository.Get<TriviaTest>().CountAsync();
 
-            var questionsCount = await this._triviaRepository.Get<TriviaQuestion>().CountAsync();
+        //    var nextQuestionId = (lastQuestionId % questionsCount) + 1;
 
-            var nextQuestionId = (lastQuestionId % questionsCount) + 1;
+        //    var isLast = (nextQuestionId == questionsCount);
 
-            var isLast = (nextQuestionId == questionsCount);
-
-            return await TriviaService.GetQuestionAsync(
-
-            this._triviaRepository.Get<TriviaQuestion>().FindAsync(CancellationToken.None, nextQuestionId).Result, isLast);
-            //return await this.db.TriviaQuestions.FindAsync(CancellationToken.None, nextQuestionId);
-        }
+        //    return await TriviaService.GetQuestionAsync(
+        //        //this._triviaRepository.Get<TriviaQuestion>().FindAsync(CancellationToken.None, nextQuestionId).Result, isLast);
+        //        _CurrentTest.Questions[nextQuestionId], isLast);
+        //    //return await this.db.TriviaQuestions.FindAsync(CancellationToken.None, nextQuestionId);
+        //}
 
         // POST api/Trivia
         [ResponseType(typeof(TriviaAnswer))]

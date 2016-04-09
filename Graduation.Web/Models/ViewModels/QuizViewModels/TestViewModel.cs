@@ -6,13 +6,13 @@ using Graduation.Web.Entities;
 
 namespace Graduation.Web.Models.ViewModels.QuizViewModels
 {
-    public class TestListViewModel
+    public class TestViewModel
     {
         public int Id { get; set; }
 
         public string Title { get; set; }
 
-        public TestListViewModel(TriviaTest test)
+        public TestViewModel(TriviaTest test)
         {
             Id = test.Id;
             Title = test.Title;

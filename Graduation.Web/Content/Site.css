@@ -74,6 +74,10 @@ div.quiz-list {
     margin: 20px auto;
 }
 
+    div.quiz-list > a {
+        display: block;
+    }
+
 div.test {
     margin: 20px auto;
 }
@@ -96,8 +100,9 @@ div.test > div > div.question > textarea,
 div.test > div > div.question > input {
     margin: 10px auto;
 }
+
 div.test > div > div.question > .answer > input {
-     margin: 5px 10px 0 0;
+    margin: 5px 10px 0 0;
 }
 /*.flip-container div.front, .flip-container div.back.flip {
     display: block;

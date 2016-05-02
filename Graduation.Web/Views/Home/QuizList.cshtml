@@ -14,34 +14,55 @@
                     <button class="btn btn-info" data-bind="click: addNewTest">Add new Test</button>
 
                     <div class="test">
-                        <div data-bind="visible: newTest, with: newTest">
-
-                            <input type="text" data-bind="text: title, value: title" placeholder="Type test title here" />
-                            <input type="number" data-bind="value: questionsCount, event: {change: setQuestionsCount}, valueUpdate: 'afterkeydown'" min="0" step="1" />
+                        <div class="input-line" data-bind="visible: newTest, with: newTest">
+                            <h2>Test Creation Form</h2>
+                            <div>
+                                <span>Test title:</span>
+                                <textarea type="text" data-bind="text: title, value: title" placeholder="Type test title here"></textarea>
+                            </div>
+                            <div>
+                                <span>Questions count:</span>
+                                <input type="number" data-bind="value: questionsCount, event: {change: setQuestionsCount}, valueUpdate: 'afterkeydown'" />
+                            </div>
 
                             <div class="question" data-bind="template: { name: 'question-template', foreach: questions}"></div>
-
+                            <div class="errors" data-bind="visible: $parent.errors">
+                                <div data-bind="foreach: $parent.errors">
+                                    <b data-bind="text: $data"></b>
+                                </div>
+                            </div>
                             <button class="btn btn-info" data-bind="click: $parent.save">Enter</button>
+
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
         <script type="text/html" id="question-template">
-            <textarea data-bind="text: title, value: title" placeholder="question title" rows="2"> </textarea>
-            <input type="number" data-bind="value: optionsCount, event: {change: setOptionsCount}, valueUpdate: 'afterkeydown'" min="0" step="1" max="10" />
-
+            <h2> Question:</h2>
+            <hr />
+            <div>
+                <span>Question title:</span>
+                <textarea data-bind="text: title, value: title" placeholder="question title" rows="3"> </textarea>
+                <br />
+                <span>Options Count:</span>
+                <input type="number" data-bind="value: optionsCount, event: {change: setOptionsCount}, valueUpdate: 'afterkeydown'" />
+            </div>
+            <h2>Answer Options:</h2>
             <div class="answer" data-bind="template: { name: 'answer-template', foreach: options}"></div>
 
         </script>
 
         <script type="text/html" id="answer-template">
-            <input data-bind="text: title, value: title" placeholder="answer title" />
-            <input type="checkbox" data-bind="checked: isTrue" />
-        </script>
+            <div>
+                <span>Answer:</span>
+                <textarea data-bind="text: title, value: title" placeholder="answer title" rows="3"></textarea>
+                <br />
+                <label>Is it Correct : <input type="checkbox" data-bind="checked: isTrue" /></label>
 
+            </div>
+        </script>
     </section>
 </div>
 

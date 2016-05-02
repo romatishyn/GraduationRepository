@@ -1,4 +1,5 @@
-﻿using Graduation.Web.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using Graduation.Web.Models;
 
 namespace Graduation.Web.Entities
 {

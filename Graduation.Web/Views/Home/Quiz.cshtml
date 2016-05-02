@@ -23,8 +23,14 @@
                     <div class="back" data-bind="css :{flip : answered(), correct: correctAnswer(), incorrect: !correctAnswer()}">
                         <p class="lead" data-bind="text: answer()"></p>
                         <p>
-                            <button class="btn btn-info btn-lg next option" data-bind="visible : !isLast(), click: nextQuestion@*, disable: working*@">Next Question</button>
-                            @Html.ActionLink("Home", "QuizList", "Home", new { data_bind = "visible: isLast()" })
+                            <!-- ko if: !isLast() -->
+                            <button class="btn btn-info btn-lg next option" data-bind="click: nextQuestion">Next Question</button>
+                            <!-- /ko -->
+                            <!-- ko if: isLast() -->
+                            @Html.ActionLink("Home", "QuizList", "Home", new { @class = "btn btn-info btn-lg option" })
+                            @*<a class="btn btn-info btn-lg option">Save Result</a>*@
+                           @* @Html.ActionLink("Trivia", "Save", "Save Result", new { @class = "btn btn-info btn-lg option" })*@
+                            <!-- /ko -->
                         </p>
                     </div>
                 </div>

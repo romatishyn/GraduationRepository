@@ -16,5 +16,19 @@ namespace Graduation.Web.Entities
         public string Title { get; set; }
         [Required]
         public virtual List<TriviaQuestion> Questions { get; set; }
+
+        public TriviaTest()
+        {
+        }
+
+        public TriviaTest(TestViewModel test)
+        {
+            Title = test.Title;
+            Questions = new List<TriviaQuestion>();
+            foreach (var question in test.Questions)
+            {
+                Questions.Add(new TriviaQuestion(question));
+            }
+        }
     }
 }

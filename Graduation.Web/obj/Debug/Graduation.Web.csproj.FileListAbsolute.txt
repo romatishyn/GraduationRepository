@@ -241,6 +241,8 @@ D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\Microsoft.Owin.Sec
 D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\Microsoft.Owin.Security.Google.xml
 D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\Microsoft.Owin.Security.Twitter.xml
 D:\GitHubRepositories\GraduationRepository\Graduation.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\GitHubRepositories\GraduationRepository\Graduation.Web\obj\Debug\Graduation.Web.Migrations.201604171515484_ResultUpdate.resources
+D:\GitHubRepositories\GraduationRepository\Graduation.Web\obj\Debug\Graduation.Web.csproj.GenerateResource.Cache
 D:\GitHubRepositories\GraduationRepository\Graduation.Web\obj\Debug\Graduation.Web.dll
 D:\GitHubRepositories\GraduationRepository\Graduation.Web\obj\Debug\Graduation.Web.pdb
 D:\GitHubRepositories\GraduationRepository\Graduation.Web\obj\Debug\Graduation.Web.csprojResolveAssemblyReference.cache

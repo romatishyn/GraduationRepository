@@ -1,20 +1,63 @@
-﻿/// <reference path="jquery-2.2.1.min.js" />
-/// <reference path="knockout.js" />
+﻿/// <reference path="knockout.js" />
+/// <reference path="knockout-validation.js" />
+
+$(document).ready(function () {
+    var viewModel = new QuizListViewModel();
+    viewModel.loadTests();
+    ko.applyBindings(viewModel);
+});
+
+ko.validation.init({
+    messagesOnModified: true,
+    insertMessages: true,
+    parseInputAttributes: true,
+});
+
+ko.extenders.numeric = function (target, maxValue) {
+    //create a writable computed observable to intercept writes to our observable
+    var result = ko.pureComputed({
+        read: target,  //always return the original observables value
+        write: function (newValue) {
+            var current = target();
+            if (newValue)
+                var valueToWrite = newValue.trim().replace(/\D/g, '');
+            if (valueToWrite > maxValue) {
+                valueToWrite = maxValue;
+            }
+            //only write if it changed
+            if (valueToWrite != current) {
+                target(valueToWrite);
+            } else {
+                //if the rounded value is the same, but a different value was written, force a notification for the current field
+                if (newValue !== current) {
+                    target.notifySubscribers(valueToWrite);
+                }
+            }
+        }
+    }).extend({ notify: 'always' });
+
+    //initialize with current value to make sure it is rounded appropriately
+    result(target());
+
+    //return the new computed observable
+    return result;
+};
+
+
 
 function QuizListViewModel() {
     var self = this;
     self.url = ko.observable("/Home/Quiz/");
     self.tests = ko.observableArray();
-    //self.test = ko.observable();
     self.pickTest = function (test) {
         location.href = self.url() + test.Id;
     }
-    self.newTest = ko.observable(null);
-
+    self.newTest = ko.validatedObservable(null);
+    self.errors = ko.observableArray();
 
     var test = function () {
         var self = this;
-        self.title = ko.observable();
+        self.title = ko.observable().extend({ required: true, maxLength: 100 });
         self.questions = ko.observableArray();
         self.questionsCount = ko.observable();
 
@@ -36,13 +79,13 @@ function QuizListViewModel() {
 
         var answer = function () {
             var self = this;
-            self.title = ko.observable();
+            self.title = ko.observable().extend({ required: true, maxLength: 100 });
             self.isTrue = ko.observable(false);
         }
 
-        self.title = ko.observable();
+        self.title = ko.observable().extend({ required: true, maxLength: 100 });
         self.options = ko.observableArray();
-        self.optionsCount = ko.observable();
+        self.optionsCount = ko.observable().extend({ numeric: 10 });
 
         self.setOptionsCount = function () {
             if (self.optionsCount() > self.options().length) {
@@ -91,22 +134,49 @@ function QuizListViewModel() {
     }
 
 
-
     self.save = function () {
-        var test = new TestModel(self.newTest());
-        console.log(test);
-        self.uploadTest(test);
+        self.errors([]);
+        if (self.hasTestContent()) {
+            var validProps = [];
+            validProps.push(self.newTest().title);
+            for (var i = 0; i < self.newTest().questions().length; i++) {
+                validProps.push(self.newTest().questions()[i].title);
+                for (var j = 0; j < self.newTest().questions()[i].options().length; j++) {
+                    validProps.push(self.newTest().questions()[i].options()[j].title);
+                }
+            }
+
+            var errors = ko.validation.group(validProps);
+            console.log(self.errors());
+            console.log("errors count: " + self.errors().length);
+            if (errors().length == 0) {
+                //if true
+                //var test = new TestModel(self.newTest());
+                //console.log(test);
+                //self.uploadTest(test);
+            } else {
+                //eat it
+                errors.showAllMessages();
+                self.errors.push("The content does not meet the validation rules");
+            }
+        } else {
+            console.log(self.hasTestContent());
+            self.errors.push("You should create Test with proper fields");
+        }
+        console.log(self.errors());
     }
+
+    self.hasTestContent = ko.computed(function () {
+        if (self.newTest() && self.newTest().questions().length > 0) {
+            return true;
+            //for (var i = 0; i < self.newTest().questions().length; i++) {
+            //return self.newTest().questions()[i].options().length > 0;
+            //} 
+        } else {
+            return false;
+        }
+    });
 }
-
-
-
-$(document).ready(function () {
-    var viewModel = new QuizListViewModel();
-    viewModel.loadTests();
-    ko.applyBindings(viewModel);
-})
-
 
 function TestModel(test) {
     var self = this;

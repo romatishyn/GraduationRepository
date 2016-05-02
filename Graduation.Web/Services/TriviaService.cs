@@ -17,11 +17,10 @@ namespace Graduation.Web.Services
                 question.Title = entity.Title;
                 question.IsLast = isLast;
                 question.Options = new List<OptionViewModel>();
-                for (var i = 0; i < entity.Options.Count; i++)
+                foreach (var option in entity.Options)
                 {
-                    question.Options.Add(new OptionViewModel(entity.Options[i]));
+                    question.Options.Add(new OptionViewModel(option));
                 }
-
             });
             return question;
         }
@@ -52,9 +51,9 @@ namespace Graduation.Web.Services
                     question.Options = new List<TriviaOption>();
                     foreach (var answer in elem.Options)
                     {
-                        var option = new TriviaOption();
-                        option.Title = answer.Title;
-                        option.IsCorrect = answer.IsCorrect;
+                        var option = new TriviaOption(answer);
+                        //option.Title = answer.Title;
+                        //option.IsCorrect = answer.IsCorrect;
                         option.TriviaQuestion = question;
                         question.Options.Add(option);
                     }

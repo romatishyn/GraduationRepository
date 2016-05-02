@@ -64,16 +64,16 @@ namespace Graduation.Web.Controllers
 
         public async Task<ActionResult> AddNewTest(TestViewModel test)
         {
+            //TriviaDatabaseInitializer
             if (test != null)
             {
+                TriviaContext context = new TriviaContext();
                 await Task.Run(() =>
                 {
                     var triviaTest = TriviaService.ConvertToTriviaAsync(test).Result;
-                    //_triviaRepository.Get<TriviaTest>().Add(triviaTest);
                     _triviaRepository.Add(triviaTest);
                     _triviaRepository.Commit();
                 });
-
             }
             return null;
         }

@@ -12,6 +12,15 @@
 footer p {
     text-align: center;
 }
+
+input[type="checkbox"] {
+    width: auto !important;
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    transform: scale(1.5);
+}
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -19,6 +28,9 @@ footer p {
     white-space: normal;
 }
 
+h2 {
+    margin: 30px 0;
+}
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
@@ -26,6 +38,13 @@ textarea {
     max-width: 280px;
 }
 
+    input[type="text"] {
+        width: 200px;
+    }
+
+    input[type="number"] {
+        width: 80px;
+    }
 
 .validation-summary-valid {
     display: none;
@@ -82,32 +101,187 @@ div.test {
     margin: 20px auto;
 }
 
-div.question {
+    div.test > div > input[type="text"],
+    div.test > div > div.question > textarea {
+        display: inline-block;
+    }
+
+    div.test > div > input,
+    div.test > div > div.question > textarea,
+    div.test > div > div.question > input {
+        margin: 10px auto;
+    }
+
+    div.test > div > div.question > .answer > input {
+        margin: 5px 10px 0 0;
+    }
+
+div.input-line {
+    max-width: 900px;
     margin: 20px auto;
+}
+
+    div.input-line > h2 {
+        margin-bottom: 80px;
+    }
+
+    div.input-line > div {
+        position: relative;
+        margin: 20px;
+        text-align: left;
+    }
+
+        div.input-line > div > span {
+            display: inline-block;
+            width: 120px;
+            margin: 10px 10px 10px 0;
+        }
+
+        div.input-line > div:first-of-type > span {
+            position: relative;
+            top: -20px;
+        }
+
+        div.input-line > div > textarea {
+            margin-right: -5px;
+            width: 240px;
+        }
+
+        div.input-line > div > input {
+            margin: 10px 10px 10px 0;
+        }
+
+        div.input-line > div > span.validationMessage {
+            top: -70px;
+            left: 140px;
+        }
+
+div.question > div {
+    margin: 80px auto;
+    position: relative;
+}
+
+div.question > hr {
+    border-top: 3px solid #5BA5DE;
+}
+
+div.question > div > span {
+    width: 120px;
+    display: inline-block;
+    margin: 10px 10px 10px 0;
+    position: relative;
+}
+
+    div.question > div > span:first-child {
+        top: -20px;
+    }
+
+div.question > div > textarea {
+    margin-right: -5px;
+    width: 240px;
 }
 
 div.answer {
     margin: 20px auto;
+    text-align: center;
 }
 
-div.test > div > input[type="text"],
-div.test > div > div.question > textarea {
-    display: block;
+    div.answer > div {
+        margin: 20px;
+        padding-bottom: 20px;
+        /*display: inline-block;*/
+        position: relative;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+        div.answer > div > input {
+            width: 300px;
+        }
+
+        div.answer > div > span:first-child {
+            width: 120px;
+            display: inline-block;
+            margin: 20px 10px 20px 0;
+            position: relative;
+            top: -20px;
+        }
+
+        div.answer > div > label {
+            display: inline-block;
+            margin: 20px 10px 20px 0;
+        }
+
+            div.answer > div > label > input {
+                margin-left: 50px;
+            }
+
+        div.answer > div > textarea {
+            margin-right: -5px;
+            width: 240px;
+        }
+
+        div.answer > div > label {
+            width: 100%;
+            font-weight: normal;
+        }
+
+@media all and (max-width: 520px) {
+
+    textarea {
+        width: 100% !important;
+    }
+
+    span.validationMessage {
+        top: -47px !important;
+        left: 88px !important;
+    }
+
+    div.input-line > div > span.validationMessage {
+        top: -47px !important;
+    }
+
+    div.answer > div {
+        margin: 20px 0;
+    }
+
+        div.answer > div > span.validationMessage {
+            top: -10px !important;
+        }
 }
 
-div.test > div > input,
-div.test > div > div.question > textarea,
-div.test > div > div.question > input {
-    margin: 10px auto;
+span.validationMessage {
+    margin: 0 !important;
+    padding: 8px;
+    width: 160px !important;
+    position: absolute !important;
+    top: -70px;
+    left: 280px;
+    border-radius: 10px;
+    background-color: red;
+    z-index: 100;
 }
 
-div.test > div > div.question > .answer > input {
-    margin: 5px 10px 0 0;
-}
-/*.flip-container div.front, .flip-container div.back.flip {
-    display: block;
+    span.validationMessage::after {
+        content: ''; /*добавляем псевдоелемент к элементу span.vaidationMessage*/
+        position: absolute; /* Абсолютное позиционирование */
+        left: 20px; /* Положение треугольника */
+        bottom: -20px; /* Положение треугольника */
+        border: 10px solid transparent; /* Прозрачные границы */
+        border-top: 10px solid red; /* Добавляем треугольник */
+    }
+
+div.errors {
+    text-align: center;
 }
 
-.flip-container div.front.flip, .flip-container div.back {
-    display: none;
+    div.errors > div > b {
+        display: block;
+        font-size: 22px;
+        color: red;
+    }
+
+/*div.answer span.validationMessage {
+    top: -70px;
+    left: 10px;
 }*/

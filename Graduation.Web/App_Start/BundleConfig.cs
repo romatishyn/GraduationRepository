@@ -9,7 +9,8 @@ namespace Graduation.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -21,7 +22,7 @@ namespace Graduation.Web
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
                 "~/Scripts/knockout.js",
-                "~/Scripts/knockout-validation.js",
+                "~/Scripts/knockout.validation.js",
                 "~/Scripts/knockout.mapping.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(

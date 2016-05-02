@@ -18,7 +18,7 @@ function QuizViewModel() {
     self.nextQuestion = function () {
         self.title("loading question...");
         self.isLast(false);
-        var url = "/api/trivia/" + self.TestId() + "/" + self.CurrentQuestion();
+        var url = "/api/trivia/" + self.TestId() + "/" + +self.CurrentQuestion();
         $.ajax({
             url: url,
             method: 'GET',
@@ -31,7 +31,8 @@ function QuizViewModel() {
                 self.working(true);
                 self.CurrentQuestion(self.CurrentQuestion() + 1);
             },
-            error: function () {
+            error: function (data) {
+                console.log(data);
                 self.title("Oops... something went wrong");
                 self.working(false);
             }

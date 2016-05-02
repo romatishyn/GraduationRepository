@@ -2,6 +2,7 @@
 
 namespace Graduation.Web.Entities
 {
+    using Graduation.Web.Models.ViewModels.TestCreationModels;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using Newtonsoft.Json;
@@ -22,5 +23,15 @@ namespace Graduation.Web.Entities
 
         [JsonIgnore]
         public bool IsCorrect { get; set; }
+
+        public TriviaOption()
+        {
+        }
+
+        public TriviaOption(OptionViewModel option)
+        {
+            Title = option.Title;
+            IsCorrect = option.IsCorrect;
+        }
     }
 }

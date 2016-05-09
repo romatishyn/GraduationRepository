@@ -2,13 +2,17 @@
     ViewBag.Title = "Play";
 }
 
+
 <div id="bodyContainer">
     <section id="content">
         <div class="container">
             <div class="row">
                 <div class="content text-center col-md-12">
                     <div class="quiz-list" data-bind="visible: tests, foreach: tests">
-                        <a data-bind="text: Title, attr{href: url}, click: $root.pickTest.bind($data)" target="_blank"></a>
+                        <div>
+                            <a data-bind="text: Title, attr: {href: viewUrl}" target="_blank"></a>
+                            <a class="btn btn-info" data-bind="text: 'Edit ' + Title, attr: {href: editUrl}, clickBubble: true" target="_blank"></a>
+                        </div>
                     </div>
 
                     <button class="btn btn-info" data-bind="click: addNewTest">Add new Test</button>
@@ -66,6 +70,17 @@
     </section>
 </div>
 
-@section scripts {
-    @Scripts.Render("~/CustomScripts/Views/QuizList/QuizList.js")
+@section scripts{
+    @{
+        var user = HttpContext.Current.User.IsInRole("admin");
+    }
+
+    <script>
+        var Context = {
+            IsAdmin: Boolean("@user")
+        };
+
+    </script>
+
+    @Scripts.Render("~/CustomScripts/Views/Home/QuizList.js")
 }

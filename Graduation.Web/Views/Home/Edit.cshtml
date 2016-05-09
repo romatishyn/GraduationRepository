@@ -1,0 +1,94 @@
+﻿@using Graduation.Web.Entities
+@model TriviaTest
+@{
+    ViewBag.Title = "Edit";
+}
+
+@helper RenderTest()
+{
+var ajaxOption = new AjaxOptions();
+ajaxOption.HttpMethod = "Post";
+ajaxOption.InsertionMode = InsertionMode.Replace;
+//ajaxOption.UpdateTargetId = "result";
+ajaxOption.OnComplete = "viewModel.updateQuiz";
+Func<int, int> getIndex = (index) => index + 1;
+
+    <div class="edit-test">
+        <h2>Edit Quiz</h2>
+        @using (Ajax.BeginForm("UpdateQuiz", "Home", FormMethod.Post, ajaxOption, new
+        {
+            testToUpdate = Model
+        }))
+        {
+            @Html.HiddenFor(x => x.Id)
+            @Html.Label("Quiz Title:")
+            @Html.EditorFor(x => x.Title)
+
+            for (var i = 0; i < Model.Questions.Count; i++)
+            {
+                <div class="edit-question">
+                    <h2>Question № @getIndex(i)</h2>
+                    @Html.HiddenFor(x => x.Questions[i].Id)
+                    @Html.Label("Question Title:")
+                    @Html.EditorFor(x => Model.Questions[i].Title)
+
+                    @for (var j = 0; j < Model.Questions[i].Options.Count; j++)
+                    {
+                        <div class="edit-answer">
+
+                            <h3>Answer № @getIndex(j)</h3>
+                            @Html.HiddenFor(x => x.Questions[i].Options[j].Id)
+                            @Html.HiddenFor(x => x.Questions[i].Options[j].QuestionId)
+                            <div>
+                                @Html.Label("Answer Title:")
+                                @Html.EditorFor(x => Model.Questions[i].Options[j].Title)
+                            </div>
+                            <div>
+                                <label>
+                                    Is it correct:
+                                    @Html.EditorFor(x => Model.Questions[i].Options[j].IsCorrect)
+                                </label>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            <input type="submit" value="Отправить" />
+        }
+    </div>
+
+}
+
+
+<div id="bodyContainer">
+    <section id="content">
+        <div class="container">
+            <div class="row">
+                <div class="content text-center col-md-12">
+                    @RenderTest()
+                </div>
+            </div>
+        </div>
+        @*<div class="box">
+                <a class="button-popup" href="#popup">Let me Pop up</a>
+            </div>*@
+        <div id="popup" class="overlay" data-bind="css:{open: result().length > 0 }">
+            @*, visible: result().length > 0*@
+            <div class="popup">
+                <a class="close" href="#" data-bind="click: clear">&times;</a>
+                <div class="content" data-bind="foreach: result">
+                    <h2 data-bind="text: $data, css:{error: $parent.isError() != true}"></h2>
+                </div>
+                <div class="content" data-bind="visible:isError() != false">
+                    <a class="btn btn-info" href="/">OK</a>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/CustomScripts/Views/Home/Edit.js")
+}

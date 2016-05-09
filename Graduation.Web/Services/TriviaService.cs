@@ -2,13 +2,21 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Graduation.Web.Entities;
+using Graduation.Web.Entities.Repositories;
 using Graduation.Web.Models.ViewModels.QuizViewModels;
 
 namespace Graduation.Web.Services
 {
-    public static class TriviaService
+    public class TriviaService : ITriviaService
     {
-        public static async Task<QuestionViewModel> GetQuestionAsync(TriviaQuestion entity, bool isLast)
+        private IRepository _triviaRepository;
+
+        public TriviaService(IRepository triviaRepository)
+        {
+            this._triviaRepository = triviaRepository;
+        }
+
+        public async Task<QuestionViewModel> GetQuestionAsync(TriviaQuestion entity, bool isLast)
         {
             var question = new QuestionViewModel();
             await Task.Run(() =>
@@ -24,7 +32,7 @@ namespace Graduation.Web.Services
             });
             return question;
         }
-        public static async Task<List<TestViewModel>> GetTestsAsync(List<TriviaTest> entity)
+        public async Task<List<TestViewModel>> GetTestsAsync(List<TriviaTest> entity)
         {
             var testList = new List<TestViewModel>();
             await Task.Run(() =>
@@ -36,7 +44,7 @@ namespace Graduation.Web.Services
             });
             return testList;
         }
-        public static async Task<TriviaTest> ConvertToTriviaAsync(Models.ViewModels.TestCreationModels.TestViewModel test)
+        public async Task<TriviaTest> ConvertToTriviaAsync(Models.ViewModels.TestCreationModels.TestViewModel test)
         {
             var triviaTest = new TriviaTest();
             triviaTest.Title = test.Title;

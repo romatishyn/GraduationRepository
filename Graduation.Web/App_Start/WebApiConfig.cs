@@ -16,12 +16,6 @@ namespace Graduation.Web
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            //config.Routes.MapHttpRoute(
-            //   name: "QuizApi",
-            //   routeTemplate: "api/{controller}/{action}",
-            //   defaults: new { controller = "Home", action = "QuizList" }
-            //);
-
             config.Routes.MapHttpRoute(
              name: "DefaultApi",
              routeTemplate: "api/{controller}/{id}",
@@ -34,8 +28,6 @@ namespace Graduation.Web
              routeTemplate: "api/{controller}/{id}/{questionId}",
              defaults: new { id = RouteParameter.Optional }
             );
-
-
 
         }
     }

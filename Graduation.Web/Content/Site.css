@@ -89,13 +89,58 @@ a {
     cursor: pointer;
 }
 
+    a.btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    a.btn-info {
+        color: #fff;
+        background-color: #5bc0de;
+        border-color: #46b8da;
+    }
+
+/*QuizList View
+_________________________________________________________________________________________________________*/
+
 div.quiz-list {
     margin: 20px auto;
 }
 
-    div.quiz-list > a {
-        display: block;
+    div.quiz-list > div {
+        /*text-align: left;*/
     }
+
+        div.quiz-list > div > a {
+            margin-right: 20px;
+        }
+
+        div.quiz-list > div > button {
+            position: relative;
+            margin: 20px auto;
+            left: 60px;
+        }
+
+            div.quiz-list > div > button > a {
+                color: white;
+            }
 
 div.test {
     margin: 20px auto;
@@ -189,7 +234,6 @@ div.answer {
     div.answer > div {
         margin: 20px;
         padding-bottom: 20px;
-        /*display: inline-block;*/
         position: relative;
         text-align: left;
         border-bottom: 1px solid #eee;
@@ -285,3 +329,157 @@ div.errors {
     top: -70px;
     left: 10px;
 }*/
+
+
+/*Edit View
+_________________________________________________________________________________________________________*/
+
+div.edit-test {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+    div.edit-test > form > label {
+        margin-right: 20px;
+    }
+
+    div.edit-test > form > div.edit-question {
+        margin: 40px auto;
+        text-align: center;
+    }
+
+    div.edit-test > div.edit-question > label {
+        margin-right: 20px;
+    }
+
+    div.edit-test > form > div.edit-question > div.edit-answer {
+        margin: 30px auto;
+    }
+
+        div.edit-test > form > div.edit-question > div.edit-answer > div > label {
+            margin-right: 20px;
+        }
+
+            div.edit-test > form > div.edit-question > div.edit-answer > div > label > input {
+                margin-left: 20px;
+            }
+
+        div.edit-test > form > div.edit-question > div.edit-answer > div {
+            margin: 10px 0;
+        }
+
+@media all and (max-width: 600px) {
+    div.edit-test,
+    div.edit-test > form > div.edit-question {
+        text-align: left;
+    }
+}
+
+h1 {
+    text-align: center;
+    font-family: Tahoma, Arial, sans-serif;
+    color: #06D85F;
+    margin: 80px 0;
+}
+
+.box {
+    width: 200px;
+    margin: 0 auto;
+    /*background: rgba(255,255,255,0.2);*/
+    padding: 35px;
+    /*border: 2px solid #fff;*/
+    border-radius: 20px/50px;
+    background-clip: padding-box;
+    text-align: center;
+}
+
+a.button-popup {
+    font-size: 1em;
+    padding: 10px;
+    color: #fff;
+    border: 2px solid #4682B4;
+    border-radius: 20px/50px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+
+    a.button-popup:hover {
+        background: #4682B4;
+    }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
+    .overlay.open {
+        visibility: visible;
+        opacity: 1;
+    }
+
+
+.popup {
+    max-width: 700px;
+    margin: 70px auto;
+    margin-top: 200px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    position: relative;
+    transition: all 5s ease-in-out;
+}
+
+    .popup h2 {
+        margin-top: 0;
+        color: #333;
+        font-family: Tahoma, Arial, sans-serif;
+        font-size: 20px;
+        color: #00bcf2;
+    }
+
+        .popup h2.error {
+            color: red;
+        }
+
+    .popup .close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        transition: all 200ms;
+        font-size: 30px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+    }
+
+        .popup .close:hover {
+            color: #4682B4;
+        }
+
+    .popup .content {
+        max-height: 30%;
+        overflow: auto;
+        text-align: center;
+    }
+
+        .popup .content > a.btn {
+            width: 100px;
+        }
+
+@media screen and (max-width: 700px) {
+    .box {
+        width: 70%;
+    }
+
+    .popup {
+        width: 70%;
+    }
+}

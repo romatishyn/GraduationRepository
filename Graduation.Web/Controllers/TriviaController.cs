@@ -25,29 +25,28 @@ namespace Graduation.Web.Controllers
 
         private readonly IRepository _triviaRepository;
 
-        public TriviaController()
+        private readonly ITriviaService _triviaService;
+
+        public TriviaController(IRepository triviaRepository, ITriviaService triviaService)
         {
-            this._triviaRepository = new GenericRepository(new TriviaContext());
+            this._triviaRepository = triviaRepository;
+            this._triviaService = triviaService;
         }
 
         // GET api/Trivia
         [ResponseType(typeof(TriviaQuestion))]
         public async Task<IHttpActionResult> Get(int id, int questionId = 0)
         {
-            //   if (!Tested)
-            //   {
             if (_triviaRepository.Get<TriviaTest>().Any(x => x.Id == id))
             {
                 _currentTest = _triviaRepository.Get<TriviaTest>().First(x => x.Id == id);
-                //             Tested = true;
             }
-            //     }
+
             var isLast = (questionId == _currentTest.Questions.Count() - 1);
             var nextQuestion = new QuestionViewModel();
             await Task.Run(() =>
             {
-                nextQuestion = TriviaService.GetQuestionAsync(
-                    _currentTest.Questions[questionId], isLast).Result;
+                nextQuestion = _triviaService.GetQuestionAsync(_currentTest.Questions[questionId], isLast).Result;
             });
 
 

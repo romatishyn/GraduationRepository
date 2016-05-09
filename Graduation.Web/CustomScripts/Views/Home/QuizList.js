@@ -47,14 +47,13 @@ ko.extenders.numeric = function (target, maxValue) {
 
 function QuizListViewModel() {
     var self = this;
-    self.url = ko.observable("/Home/Quiz/");
+    self.viewUrl = ko.observable("/Home/Quiz/");
+    self.editUrl = ko.observable("/Home/Edit/");
     self.tests = ko.observableArray();
-    self.pickTest = function (test) {
-        location.href = self.url() + test.Id;
-    }
     self.newTest = ko.validatedObservable(null);
     self.errors = ko.observableArray();
-
+    self.IsAdmin = ko.mapping.fromJS(self.IsAdmin, {}, Context.IsAdmin);
+    console.log(self.IsAdmin);
     var test = function () {
         var self = this;
         self.title = ko.observable().extend({ required: true, maxLength: 100 });
@@ -110,7 +109,15 @@ function QuizListViewModel() {
             dataType: 'json',
             contentType: "application/json",
             success: function (tests) {
+                for (var i = 0; i < tests.length; i++) {
+                    tests[i].viewUrl = self.viewUrl() + tests[i].Id;
+                    if (self.IsAdmin) {
+                        tests[i].editUrl = self.editUrl() + tests[i].Id;
+                    }
+                }
+
                 self.tests(tests);
+                console.log(self.tests());
             }
         });
     }
@@ -151,9 +158,9 @@ function QuizListViewModel() {
             console.log("errors count: " + self.errors().length);
             if (errors().length == 0) {
                 //if true
-                //var test = new TestModel(self.newTest());
-                //console.log(test);
-                //self.uploadTest(test);
+                var test = new TestModel(self.newTest());
+                console.log(test);
+                self.uploadTest(test);
             } else {
                 //eat it
                 errors.showAllMessages();
